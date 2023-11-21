@@ -44,3 +44,17 @@ def get_hfi_returns():
     hfi /= 100
     hfi.index = hfi.index.to_period('M')
     return hfi
+
+def skewness(r):
+    """
+    Alternative to scipy.stats.skew()
+    Computes the skewness of the supplied Series or DataFrame
+    Returns a float or a Series
+    """
+
+    demeaned_r = r - r.mean()
+    
+    #Use the population standard deviation, so set dof=0
+    sigma_r = r.std(ddof=0)
+    exp = (demeaned_r**3).mean()
+    return exp/(sigma_r**3)
