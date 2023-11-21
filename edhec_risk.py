@@ -58,3 +58,27 @@ def skewness(r):
     sigma_r = r.std(ddof=0)
     exp = (demeaned_r**3).mean()
     return exp/(sigma_r**3)
+
+def kurtosis(r):
+    """
+    Alternative to scipy.stats.kurtosis()
+    Computes the kurtosis of the supplied Series or DataFrame
+    Returns a float or a Series
+    """
+
+    demeaned_r = r - r.mean()
+    
+    #Use the population standard deviation, so set dof=0
+    sigma_r = r.std(ddof=0)
+    exp = (demeaned_r**4).mean()
+    return exp/(sigma_r**4)
+
+import scipy
+
+def is_normal_distributed(r, level = 0.01):
+    """Applies the jarque-bera test to determine if a Series is normal or not.
+    Test is applied at the 1% level by default
+    Returns True if the hypothesis of normality is accepted, False otherwise
+    """
+    statistic, p_value = scipy.stats.jarque_bera(r)
+    return p_value>level
