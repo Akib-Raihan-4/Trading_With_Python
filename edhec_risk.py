@@ -32,3 +32,15 @@ def get_ffme_returns():
     rets /= 100
     rets.index = pd.to_datetime(rets.index, format="%Y%m").to_period('M')
     return rets
+
+def get_hfi_returns():
+    """
+    Load the Fama-French Dataset for the returns of the Top and Bottom Deciles by MarketCap
+    """
+
+    hfi = pd.read_csv('data/edhec-hedgefundindices.csv',
+                       header= 0, index_col=0, parse_dates = True)
+    
+    hfi /= 100
+    hfi.index = hfi.index.to_period('M')
+    return hfi
