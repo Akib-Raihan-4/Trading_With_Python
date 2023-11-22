@@ -82,3 +82,23 @@ def is_normal_distributed(r, level = 0.01):
     """
     statistic, p_value = scipy.stats.jarque_bera(r)
     return p_value>level
+
+def semi_deviation(r):
+    """Returns the Semi Deviation aka negative semi deviation of r.
+    r must be a Series or a DataFrame, else raise a TypeError"""
+
+    excess = r-r.mean()
+    excess_negative = excess[excess<0]
+    excess_negative_square = excess_negative**2
+    n_negative = (excess<0).sum()
+    return (excess_negative_square.sum()/n_negative)**0.5
+import numpy as np
+def var_historic(r, level = 5):
+    """
+    """
+    if isinstance(r, pd.DataFrame):
+        return r.aggregate(var_historic, level = level)
+    elif isinstance(r, pd.Series):
+        return -np.percentile(r, level)
+    else:
+        raise TypeError("Expected r to be Series or Dataframe")
