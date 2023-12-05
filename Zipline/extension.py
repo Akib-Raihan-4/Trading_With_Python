@@ -1,13 +1,14 @@
+
 import pandas as pd
+
 from zipline.data.bundles import register
 from zipline.data.bundles.csvdir import csvdir_equities
-
-
 register(
-    'btc_bundle',  
+    'Korea_commodity',
     csvdir_equities(
         ['daily'],
-        './custom_data'
+        '/home/popeye/Anchorblock/Trading_With_Python/Zipline'
     ),
-    calendar_name='us_futures',
+    calendar_name='XKRX',
 )
+
